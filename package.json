@@ -17,25 +17,25 @@
   },
   "dependencies": {
     "boom": "7.x.x",
+    "code": "5.x.x",
+    "confidence": "3.x.x",
+    "dotenv": "4.x.x",
+    "glue": "5.x.x",
+    "hapi": "17.x.x",
     "haute-couture": "3.x.x",
+    "hoek": "5.x.x",
     "joi": "13.x.x",
     "objection": "0.9.x",
     "schwifty": "3.x.x"
   },
   "devDependencies": {
-    "code": "5.x.x",
-    "confidence": "3.x.x",
-    "dotenv": "4.x.x",
     "eslint": "4.x.x",
     "eslint-config-hapi": "11.x.x",
     "eslint-plugin-hapi": "4.x.x",
-    "glue": "5.x.x",
-    "hapi": "17.x.x",
     "hapi-swagger": "9.x.x",
     "inert": "5.x.x",
     "lab": "15.x.x",
     "vision": "5.x.x",
-    "hoek": "5.x.x",
     "knex": "0.14.x",
     "sqlite3": "3.x.x"
   }
