@@ -23,6 +23,7 @@
     "boom": "7.x.x",
     "code": "5.x.x",
     "confidence": "3.x.x",
+    "db-errors": "^0.1.0",
     "dotenv": "4.x.x",
     "glue": "5.x.x",
     "hapi": "17.x.x",
