@@ -5,6 +5,10 @@
   "author": "Matt Boutet <mattboutet@gmail.com>",
   "license": "ISC",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattboutet/user-pal"
+  },
   "directories": {
     "lib": "lib",
     "test": "test"
@@ -22,11 +26,16 @@
     "dotenv": "4.x.x",
     "glue": "5.x.x",
     "hapi": "17.x.x",
+    "hapi-auth-jwt2": "^8.0.0",
     "haute-couture": "3.x.x",
     "hoek": "5.x.x",
     "joi": "13.x.x",
+    "jsonwebtoken": "^8.2.0",
     "objection": "0.9.x",
-    "schwifty": "3.x.x"
+    "pg": "^7.4.1",
+    "schwifty": "3.x.x",
+    "secure-password": "^3.0.0",
+    "tandy": "^1.0.1"
   },
   "devDependencies": {
     "eslint": "4.x.x",

@@ -23,7 +23,9 @@ module.exports = new Confidence.Store({
         plugins: [
             {
                 plugin: '../lib', // Main plugin
-                options: {}
+                options: {
+                    jwtKey: process.env.JWT_SECRET
+                }
             },
             {
                 plugin: './plugins/swagger'
@@ -43,6 +45,19 @@ module.exports = new Confidence.Store({
                             },
                             connection: {
                                 filename: ':memory:'
+                            }
+                        }
+                    },
+                    development: {
+                        migrateOnStart: true,
+                        knex: {
+                            client: 'pg',
+                            useNullAsDefault: true,
+                            connection: {
+                                host: process.env.DB_HOST,
+                                user: process.env.DB_USER,
+                                password: process.env.DB_PASSWORD,
+                                database: process.env.DB_NAME
                             }
                         }
                     },
