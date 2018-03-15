@@ -31,11 +31,11 @@
     "hoek": "5.x.x",
     "joi": "13.x.x",
     "jsonwebtoken": "^8.2.0",
-    "objection": "0.9.x",
+    "objection": "1.0.x",
     "pg": "^7.4.1",
-    "schwifty": "3.x.x",
+    "schwifty": "4.0.x",
     "secure-password": "^3.0.0",
-    "tandy": "^1.0.1"
+    "tandy": "1.0.x"
   },
   "devDependencies": {
     "eslint": "4.x.x",
