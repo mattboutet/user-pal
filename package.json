@@ -16,7 +16,7 @@
   "scripts": {
     "knex": "knex",
     "start": "node server",
-    "test": "lab -a code -I '__core-js_shared__' -L",
+    "test": "NODE_ENV=test npm run knex migrate:rollback; lab -a code -L -t 96 -I '__core-js_shared__' -L",
     "lint": "eslint ."
   },
   "dependencies": {

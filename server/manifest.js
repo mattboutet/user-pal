@@ -4,7 +4,12 @@ const Dotenv = require('dotenv');
 const Confidence = require('confidence');
 
 // Pull .env into process.env
-Dotenv.config({ path: `${__dirname}/.env` });
+if (process.env.NODE_ENV === 'test'){
+    Dotenv.config({ path: `${__dirname}/.env-test` });
+}
+else {
+    Dotenv.config({ path: `${__dirname}/.env` });
+}
 
 // Glue manifest as a confidence store
 module.exports = new Confidence.Store({
@@ -49,6 +54,19 @@ module.exports = new Confidence.Store({
                         }
                     },
                     development: {
+                        migrateOnStart: true,
+                        knex: {
+                            client: 'pg',
+                            useNullAsDefault: true,
+                            connection: {
+                                host: process.env.DB_HOST,
+                                user: process.env.DB_USER,
+                                password: process.env.DB_PASSWORD,
+                                database: process.env.DB_NAME
+                            }
+                        }
+                    },
+                    test: {
                         migrateOnStart: true,
                         knex: {
                             client: 'pg',
