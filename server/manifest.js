@@ -30,6 +30,9 @@ module.exports = new Confidence.Store({
                 plugin: '../lib', // Main plugin
                 options: {
                     jwtKey: process.env.JWT_SECRET
+                },
+                routes: {
+                    prefix: process.env.API_PREFIX
                 }
             },
             {
