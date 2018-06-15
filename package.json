@@ -34,8 +34,10 @@
     "jsonwebtoken": "^8.2.0",
     "objection": "1.0.x",
     "pg": "^7.4.1",
+    "schmervice": "^1.0.0",
     "schwifty": "4.0.x",
     "secure-password": "^3.0.0",
+    "sendemail": "^3.4.0",
     "tandy": "1.0.x"
   },
   "devDependencies": {
