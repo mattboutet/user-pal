@@ -33,7 +33,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/users',
+            url: '/api/users',
             payload: {
                 email: 'test@test.com',
                 password: 'password',
@@ -55,7 +55,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/users',
+            url: '/api/users',
             payload: {
                 email: 'test@TEST.com',
                 password: 'password',
@@ -73,11 +73,10 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/users',
+            url: '/api/users',
             payload: {
                 email: 'test@TEST.com',
                 password: 'password',
-                // firstName: 'Test1',
                 firstName: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like) It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)',
                 lastName: 'Test1'
             }
@@ -92,7 +91,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/login',
+            url: '/api/login',
             payload: {
                 email: 'test@test.com',
                 password: 'password'
@@ -108,7 +107,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/login',
+            url: '/api/login',
             payload: {
                 email: 'foo@test.com',
                 password: 'password'
@@ -122,7 +121,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/login',
+            url: '/api/login',
             payload: {
                 email: 'test@test.com',
                 password: 'notPassword'
@@ -136,7 +135,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'GET',
-            url: '/users',
+            url: '/api/users',
             headers: {
                 authorization: jwt
             }
@@ -154,7 +153,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'GET',
-            url: '/user',
+            url: '/api/user',
             headers: {
                 authorization: jwt
             }
@@ -172,7 +171,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'GET',
-            url: '/users/3',
+            url: '/api/users/3',
             headers: {
                 authorization: jwt
             }
@@ -190,7 +189,7 @@ describe('Deployment', () => {
 
         const changeOptions = {
             method: 'POST',
-            url: '/users/change-password',
+            url: '/api/users/change-password',
             payload: {
                 password: 'password',
                 newPassword: 'newPassword'
@@ -205,7 +204,7 @@ describe('Deployment', () => {
 
         const badLoginOptions = {
             method: 'POST',
-            url: '/login',
+            url: '/api/login',
             payload: {
                 email: 'test@test.com',
                 password: 'password'
@@ -216,7 +215,7 @@ describe('Deployment', () => {
 
         const loginOptions = {
             method: 'POST',
-            url: '/login',
+            url: '/api/login',
             payload: {
                 email: 'test@test.com',
                 password: 'newPassword'
@@ -232,7 +231,7 @@ describe('Deployment', () => {
 
         const changeOptions = {
             method: 'POST',
-            url: '/users/change-password',
+            url: '/api/users/change-password',
             payload: {
                 password: 'password',
                 newPassword: 'password'
@@ -250,7 +249,7 @@ describe('Deployment', () => {
 
         const changeOptions = {
             method: 'POST',
-            url: '/users/change-password',
+            url: '/api/users/change-password',
             payload: {
                 password: 'foo',
                 newPassword: 'password'
@@ -268,7 +267,7 @@ describe('Deployment', () => {
 
         const requestOptions = {
             method: 'POST',
-            url: '/users/request-reset',
+            url: '/api/users/request-reset',
             payload: {
                 email: 'test@test.com'
             }
@@ -283,7 +282,7 @@ describe('Deployment', () => {
 
         const resetOptions = {
             method: 'POST',
-            url: '/users/reset-password',
+            url: '/api/users/reset-password',
             payload: {
                 email: 'test@test.com',
                 resetToken,
@@ -300,7 +299,7 @@ describe('Deployment', () => {
 
         const resetOptions = {
             method: 'POST',
-            url: '/users/reset-password',
+            url: '/api/users/reset-password',
             payload: {
                 email: 'nope@test.com',
                 resetToken: 'tokenValue',
@@ -317,7 +316,7 @@ describe('Deployment', () => {
 
         const resetOptions = {
             method: 'POST',
-            url: '/users/reset-password',
+            url: '/api/users/reset-password',
             payload: {
                 email: 'test@test.com',
                 resetToken: 'badTokenValue',
@@ -334,7 +333,7 @@ describe('Deployment', () => {
 
         const requestOptions = {
             method: 'POST',
-            url: '/users/request-reset',
+            url: '/api/users/request-reset',
             payload: {
                 email: 'a@b.c'
             }
@@ -349,7 +348,7 @@ describe('Deployment', () => {
 
         const resetOptions = {
             method: 'POST',
-            url: '/users/reset-password',
+            url: '/api/users/reset-password',
             payload: {
                 email: 'a@b.c',
                 resetToken: 'notCorrectToken',
@@ -366,7 +365,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/logout',
+            url: '/api/logout',
             headers: {
                 authorization: jwt
             }
@@ -378,7 +377,7 @@ describe('Deployment', () => {
         //ensure that 2nd session is still valid
         const fetchOptions = {
             method: 'GET',
-            url: '/user',
+            url: '/api/user',
             headers: {
                 authorization: jwt2
             }
@@ -395,7 +394,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/logout-all',
+            url: '/api/logout-all',
             headers: {
                 authorization: jwt2
             }
@@ -409,7 +408,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'GET',
-            url: '/user',
+            url: '/api/user',
             headers: {
                 authorization: jwt
             }
