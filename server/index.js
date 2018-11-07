@@ -10,6 +10,7 @@ exports.deployment = async (start) => {
 
     await server.initialize();
 
+    // $lab:coverage:off$
     if (!start) {
         return server;
     }
@@ -19,6 +20,7 @@ exports.deployment = async (start) => {
     console.log(`Server started at ${server.info.uri}`);
 
     return server;
+
 };
 
 if (!module.parent) {
@@ -30,3 +32,4 @@ if (!module.parent) {
         throw err;
     });
 }
+// $lab:coverage:on$
