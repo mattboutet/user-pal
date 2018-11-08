@@ -38,7 +38,6 @@
     "schwifty": "4.0.x",
     "secure-password": "3.x.x",
     "sendemail": "^3.4.0",
-    "sinon": "^7.1.1",
     "tandy": "1.0.x"
   },
   "devDependencies": {

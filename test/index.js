@@ -50,7 +50,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/api/users',
+            url: '/users',
             payload: {
                 email: 'test@test.com',
                 password: 'password',
@@ -72,7 +72,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/api/users',
+            url: '/users',
             payload: {
                 email: 'test@TEST.com',
                 password: 'password',
@@ -90,7 +90,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/api/users',
+            url: '/users',
             payload: {
                 email: 'test@TEST.com',
                 password: 'password',
@@ -108,7 +108,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/api/login',
+            url: '/login',
             payload: {
                 email: 'test@test.com',
                 password: 'password'
@@ -124,7 +124,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/api/login',
+            url: '/login',
             payload: {
                 email: 'foo@test.com',
                 password: 'password'
@@ -138,7 +138,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/api/login',
+            url: '/login',
             payload: {
                 email: 'test@test.com',
                 password: 'notPassword'
@@ -152,7 +152,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'GET',
-            url: '/api/users',
+            url: '/users',
             headers: {
                 authorization: jwt
             }
@@ -170,7 +170,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'GET',
-            url: '/api/user',
+            url: '/user',
             headers: {
                 authorization: jwt
             }
@@ -188,7 +188,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'GET',
-            url: '/api/users/3',
+            url: '/users/3',
             headers: {
                 authorization: jwt
             }
@@ -206,7 +206,7 @@ describe('Deployment', () => {
 
         const changeOptions = {
             method: 'POST',
-            url: '/api/users/change-password',
+            url: '/users/change-password',
             payload: {
                 password: 'password',
                 newPassword: 'newPassword'
@@ -221,7 +221,7 @@ describe('Deployment', () => {
 
         const badLoginOptions = {
             method: 'POST',
-            url: '/api/login',
+            url: '/login',
             payload: {
                 email: 'test@test.com',
                 password: 'password'
@@ -232,7 +232,7 @@ describe('Deployment', () => {
 
         const loginOptions = {
             method: 'POST',
-            url: '/api/login',
+            url: '/login',
             payload: {
                 email: 'test@test.com',
                 password: 'newPassword'
@@ -248,7 +248,7 @@ describe('Deployment', () => {
 
         const changeOptions = {
             method: 'POST',
-            url: '/api/users/change-password',
+            url: '/users/change-password',
             payload: {
                 password: 'password',
                 newPassword: 'password'
@@ -266,7 +266,7 @@ describe('Deployment', () => {
 
         const changeOptions = {
             method: 'POST',
-            url: '/api/users/change-password',
+            url: '/users/change-password',
             payload: {
                 password: 'foo',
                 newPassword: 'password'
@@ -284,7 +284,7 @@ describe('Deployment', () => {
 
         const requestOptions = {
             method: 'POST',
-            url: '/api/users/request-reset',
+            url: '/users/request-reset',
             payload: {
                 email: 'success@simulator.amazonses.com'
             }
@@ -298,7 +298,7 @@ describe('Deployment', () => {
         //
         // const resetOptions = {
         //     method: 'POST',
-        //     url: '/api/users/reset-password',
+        //     url: '/users/reset-password',
         //     payload: {
         //         email: 'test@test.com',
         //         resetToken,
@@ -315,7 +315,7 @@ describe('Deployment', () => {
 
         const resetOptions = {
             method: 'POST',
-            url: '/api/users/reset-password',
+            url: '/users/reset-password',
             payload: {
                 email: 'a@b.c',
                 resetToken: rawResetToken,
@@ -333,7 +333,7 @@ describe('Deployment', () => {
 
         const resetOptions = {
             method: 'POST',
-            url: '/api/users/reset-password',
+            url: '/users/reset-password',
             payload: {
                 email: 'nope@test.com',
                 resetToken: 'tokenValue',
@@ -350,7 +350,7 @@ describe('Deployment', () => {
 
         const resetOptions = {
             method: 'POST',
-            url: '/api/users/reset-password',
+            url: '/users/reset-password',
             payload: {
                 email: 'test@test.com',
                 resetToken: 'badTokenValue',
@@ -367,7 +367,7 @@ describe('Deployment', () => {
 
         const requestOptions = {
             method: 'POST',
-            url: '/api/users/request-reset',
+            url: '/users/request-reset',
             payload: {
                 email: 'success@simulator.amazonses.com'
             }
@@ -382,7 +382,7 @@ describe('Deployment', () => {
 
         const resetOptions = {
             method: 'POST',
-            url: '/api/users/reset-password',
+            url: '/users/reset-password',
             payload: {
                 email: 'success@simulator.amazonses.com',
                 resetToken: 'notCorrectToken',
@@ -399,7 +399,7 @@ describe('Deployment', () => {
 
         const requestOptions = {
             method: 'POST',
-            url: '/api/users/request-reset',
+            url: '/users/request-reset',
             payload: {
                 email: 'cheese@burger.com'
             }
@@ -414,7 +414,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/api/logout',
+            url: '/logout',
             headers: {
                 authorization: jwt
             }
@@ -426,7 +426,7 @@ describe('Deployment', () => {
         //ensure that 2nd session is still valid
         const fetchOptions = {
             method: 'GET',
-            url: '/api/user',
+            url: '/user',
             headers: {
                 authorization: jwt2
             }
@@ -443,7 +443,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'POST',
-            url: '/api/logout-all',
+            url: '/logout-all',
             headers: {
                 authorization: jwt2
             }
@@ -457,7 +457,7 @@ describe('Deployment', () => {
 
         const options = {
             method: 'GET',
-            url: '/api/user',
+            url: '/user',
             headers: {
                 authorization: jwt
             }
