@@ -3,6 +3,7 @@
 const Dotenv = require('dotenv');
 const Confidence = require('confidence');
 
+// $lab:coverage:off$
 // Pull .env into process.env
 if (process.env.NODE_ENV === 'test'){
     Dotenv.config({ path: `${__dirname}/.env-test` });
@@ -10,12 +11,15 @@ if (process.env.NODE_ENV === 'test'){
 else {
     Dotenv.config({ path: `${__dirname}/.env` });
 }
+// $lab:coverage:on$
 
 // Glue manifest as a confidence store
 module.exports = new Confidence.Store({
     server: {
         host: '0.0.0.0',
+        // $lab:coverage:off$
         port: process.env.PORT || 3000,
+        // $lab:coverage:on$
         debug: {
             $filter: 'NODE_ENV',
             development: {
@@ -29,7 +33,8 @@ module.exports = new Confidence.Store({
             {
                 plugin: '../lib', // Main plugin
                 options: {
-                    jwtKey: process.env.JWT_SECRET
+                    jwtKey: process.env.JWT_SECRET,
+                    siteUrl: process.env.SITE_URL
                 },
                 routes: {
                     prefix: process.env.API_PREFIX

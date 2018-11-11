@@ -4,8 +4,13 @@
 
 const Code = require('code');
 const Lab = require('lab');
+const SecurePassword = require('secure-password');
 const Server = require('../server');
+const Uuid = require('uuid');
+
 const Package = require('../package.json');
+
+const Pwd = new SecurePassword();
 
 // Test shortcuts
 
@@ -15,6 +20,7 @@ const { expect } = Code;
 let server = {};
 let jwt;
 let jwt2;
+let rawResetToken;
 
 describe('Deployment', () => {
 
@@ -22,6 +28,17 @@ describe('Deployment', () => {
 
         server = await Server.deployment();
         await server.knex().seed.run({ directory: 'test/seeds' });
+
+        //Set up user in mid-reset so we can test later
+        const { Users } = server.models();
+        rawResetToken = Buffer.from(Uuid({ rng: Uuid.nodeRNG }));
+
+        const hash = Pwd.hashSync(rawResetToken);
+        rawResetToken = rawResetToken.toString('utf8');
+        await Users.query()
+            .patch({ 'password': null, resetToken: hash.toString('utf8') })
+            .where('email','a@b.c');
+
     });
 
     it('registers the main plugin.', () => {
@@ -77,7 +94,6 @@ describe('Deployment', () => {
             payload: {
                 email: 'test@TEST.com',
                 password: 'password',
-                // firstName: 'Test1',
                 firstName: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like) It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)',
                 lastName: 'Test1'
             }
@@ -147,7 +163,7 @@ describe('Deployment', () => {
 
         expect(response.statusCode).to.equal(200);
         expect(result).to.be.an.array();
-        expect(result.length).to.equal(5);
+        expect(result.length).to.equal(6);
     });
 
     it('Fetches logged in user', async () => {
@@ -165,7 +181,7 @@ describe('Deployment', () => {
 
         expect(response.statusCode).to.equal(200);
         expect(result).to.be.an.object();
-        expect(result.id).to.equal(5);
+        expect(result.id).to.equal(6);
     });
 
     it('Fetches user by ID', async () => {
@@ -264,34 +280,51 @@ describe('Deployment', () => {
         expect(changeResponse.statusCode).to.equal(400);
     });
 
-    it('Requests password reset, resets password', async () => {
+    it('Requests password reset', async () => {
 
         const requestOptions = {
             method: 'POST',
             url: '/users/request-reset',
             payload: {
-                email: 'test@test.com'
+                email: 'success@simulator.amazonses.com'
             }
         };
 
         const requestResponse = await server.inject(requestOptions);
         const { result } = requestResponse;
-        const resetToken = result.split('*')[1];
 
         expect(requestResponse.statusCode).to.equal(200);
-        expect(resetToken).to.be.a.string();
+        expect(result).to.be.a.string();
+        //
+        // const resetOptions = {
+        //     method: 'POST',
+        //     url: '/users/reset-password',
+        //     payload: {
+        //         email: 'test@test.com',
+        //         resetToken,
+        //         newPassword: 'string'
+        //     }
+        // };
+        //
+        // const resetResponse = await server.inject(resetOptions);
+        // expect(resetResponse.statusCode).to.equal(200);
+
+    });
+
+    it('Resets Password', async () => {
 
         const resetOptions = {
             method: 'POST',
             url: '/users/reset-password',
             payload: {
-                email: 'test@test.com',
-                resetToken,
+                email: 'a@b.c',
+                resetToken: rawResetToken,
                 newPassword: 'string'
             }
         };
 
         const resetResponse = await server.inject(resetOptions);
+
         expect(resetResponse.statusCode).to.equal(200);
 
     });
@@ -336,22 +369,22 @@ describe('Deployment', () => {
             method: 'POST',
             url: '/users/request-reset',
             payload: {
-                email: 'a@b.c'
+                email: 'success@simulator.amazonses.com'
             }
         };
 
         const requestResponse = await server.inject(requestOptions);
         const { result } = requestResponse;
-        const resetToken = result.split('*')[1];
 
         expect(requestResponse.statusCode).to.equal(200);
-        expect(resetToken).to.be.a.string();
+        expect(result).to.be.a.string();
+        expect(result).to.equal('Check your email for a reset link');
 
         const resetOptions = {
             method: 'POST',
             url: '/users/reset-password',
             payload: {
-                email: 'a@b.c',
+                email: 'success@simulator.amazonses.com',
                 resetToken: 'notCorrectToken',
                 newPassword: 'string'
             }
@@ -360,6 +393,21 @@ describe('Deployment', () => {
         const resetResponse = await server.inject(resetOptions);
         expect(resetResponse.statusCode).to.equal(401);
 
+    });
+
+    it('Requests password reset for nonexistent user', async () => {
+
+        const requestOptions = {
+            method: 'POST',
+            url: '/users/request-reset',
+            payload: {
+                email: 'cheese@burger.com'
+            }
+        };
+
+        const requestResponse = await server.inject(requestOptions);
+
+        expect(requestResponse.statusCode).to.equal(401);
     });
 
     it('Logs out user of one session', async () => {
