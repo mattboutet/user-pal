@@ -91,6 +91,9 @@ module.exports = new Confidence.Store({
                         migrateOnStart: false
                     }
                 }
+            },
+            {
+                plugin: process.env.FRONT_END ? process.env.FRONT_END : Toys.noop
             }
         ]
     }
