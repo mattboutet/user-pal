@@ -22,7 +22,7 @@
   "dependencies": {
     "boom": "7.x.x",
     "code": "5.x.x",
-    "confidence": "git@github.com:hapijs/confidence.git",
+    "confidence": "4.x.x",
     "db-errors": "^0.1.0",
     "dotenv": "6.x.x",
     "glue": "5.x.x",
@@ -38,7 +38,8 @@
     "schwifty": "4.0.x",
     "secure-password": "3.x.x",
     "sendemail": "^3.4.0",
-    "tandy": "1.0.x"
+    "tandy": "1.0.x",
+    "toys": "2.x.x"
   },
   "devDependencies": {
     "eslint": "5.x.x",
