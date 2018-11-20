@@ -2,6 +2,7 @@
 
 const Dotenv = require('dotenv');
 const Confidence = require('confidence');
+const Toys = require('toys');
 
 // $lab:coverage:off$
 // Pull .env into process.env
@@ -92,9 +93,9 @@ module.exports = new Confidence.Store({
                     }
                 }
             },
-            {
+            {// $lab:coverage:off$
                 plugin: process.env.FRONT_END ? process.env.FRONT_END : Toys.noop
-            }
+            }// $lab:coverage:on$
         ]
     }
 });
