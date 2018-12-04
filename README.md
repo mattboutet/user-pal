@@ -19,9 +19,10 @@ $ cd my-project
 $ git checkout --orphan master # New branch without history
 $ npm install
 $ cp server/.env-keep server/.env
+$ cp server/.env server/.env-test
 ```
 
-Open `.env` in your editor of choice and fill in the variables there (presumes you've created an empty database in the SQL dialect of your choice).
+Open `.env` and `.env-test` in your editor of choice and fill in the variables there (presumes you've created empty databases in the SQL dialect of your choice).  `.env-test` should point at a different database from `.env`, as all data will be lost each time `npm run test` is executed.
 
 If you'll be connecting to a PostgreSQL database, ensure that your database is properly configured with the `citext` extension (see [Working with PostgreSQL's citext Extension](#working-with-postgresqls-citext-extension)) below.
 
