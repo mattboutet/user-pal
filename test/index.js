@@ -1,8 +1,7 @@
 'use strict';
 
-// Load modules
-
 const Code = require('code');
+const KnexMigrate = require('knex-migrate');
 const Lab = require('lab');
 const SecurePassword = require('secure-password');
 const Server = require('../server');
@@ -13,12 +12,12 @@ const Package = require('../package.json');
 const Pwd = new SecurePassword();
 
 // Test shortcuts
-
 const { describe, it, before } = exports.lab = Lab.script();
 const { expect } = Code;
 
 let server = {};
 let jwt;
+let jwtAdmin;
 let jwt2;
 let rawResetToken;
 
@@ -27,6 +26,11 @@ describe('Deployment', () => {
     before(async () => {
 
         server = await Server.deployment();
+
+        //start with clean DB
+        await KnexMigrate('down', { to: 0 });
+        await KnexMigrate('up', {});
+
         await server.knex().seed.run({ directory: 'test/seeds' });
 
         //Set up user in mid-reset so we can test later
@@ -55,7 +59,8 @@ describe('Deployment', () => {
                 email: 'test@test.com',
                 password: 'password',
                 firstName: 'Test',
-                lastName: 'Test'
+                lastName: 'Test',
+                role: 'user'
             }
         };
 
@@ -68,6 +73,27 @@ describe('Deployment', () => {
         expect(result.email).to.equal('test@test.com');
     });
 
+    it('creates a new admin', async () => {
+
+        const options = {
+            method: 'POST',
+            url: '/users',
+            payload: {
+                email: 'admin@test.com',
+                password: 'password',
+                firstName: 'Admin',
+                lastName: 'Test',
+                role: 'admin'
+            }
+        };
+        const res = await server.inject(options);
+        const result = res.result;
+        expect(res.statusCode).to.equal(200);
+        expect(result).to.be.an.object();
+        expect(result.role).to.equal('admin');
+        expect(result.email).to.equal('admin@test.com');
+    });
+
     it('creates a new user with a dupe email', async () => {
 
         const options = {
@@ -77,7 +103,8 @@ describe('Deployment', () => {
                 email: 'test@TEST.com',
                 password: 'password',
                 firstName: 'Test1',
-                lastName: 'Test1'
+                lastName: 'Test1',
+                role: 'user'
             }
         };
 
@@ -95,7 +122,8 @@ describe('Deployment', () => {
                 email: 'test@TEST.com',
                 password: 'password',
                 firstName: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like) It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)',
-                lastName: 'Test1'
+                lastName: 'Test1',
+                role: 'user'
             }
         };
 
@@ -118,6 +146,22 @@ describe('Deployment', () => {
         jwt = response.result;
         expect(response.statusCode).to.equal(200);
         expect(jwt).to.be.a.string();
+    });
+
+    it('Logs an admin in', async () => {
+
+        const options = {
+            method: 'POST',
+            url: '/login',
+            payload: {
+                email: 'admin@test.com',
+                password: 'password'
+            }
+        };
+        const response = await server.inject(options);
+        jwtAdmin = response.result;
+        expect(response.statusCode).to.equal(200);
+        expect(jwtAdmin).to.be.a.string();
     });
 
     it('Logs a nonexistent user in', async () => {
@@ -163,7 +207,7 @@ describe('Deployment', () => {
 
         expect(response.statusCode).to.equal(200);
         expect(result).to.be.an.array();
-        expect(result.length).to.equal(6);
+        expect(result.length).to.equal(7);
     });
 
     it('Fetches logged in user', async () => {
@@ -408,6 +452,32 @@ describe('Deployment', () => {
         const requestResponse = await server.inject(requestOptions);
 
         expect(requestResponse.statusCode).to.equal(401);
+    });
+
+    it('Attempts to delete a user as non admin', async () => {
+
+        const requestOptions = {
+            method: 'DELETE',
+            url: '/users/5',
+            headers: {
+                authorization: jwt
+            }
+        };
+        const requestResponse = await server.inject(requestOptions);
+        expect(requestResponse.statusCode).to.equal(403);
+    });
+
+    it('Deletes a user', async () => {
+
+        const requestOptions = {
+            method: 'DELETE',
+            url: '/users/5',
+            headers: {
+                authorization: jwtAdmin
+            }
+        };
+        const requestResponse = await server.inject(requestOptions);
+        expect(requestResponse.statusCode).to.equal(204);
     });
 
     it('Logs out user of one session', async () => {
