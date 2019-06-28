@@ -41,7 +41,7 @@ describe('Deployment', () => {
         rawResetToken = rawResetToken.toString('utf8');
         await Users.query()
             .patch({ 'password': null, resetToken: hash.toString('utf8') })
-            .where('email','a@b.c');
+            .where('email','a@b.com');
 
     });
 
@@ -70,7 +70,7 @@ describe('Deployment', () => {
 
         expect(res.statusCode).to.equal(200);
         expect(result).to.be.an.object();
-        expect(result.email).to.equal('test@test.com');
+        expect(result.id).to.be.a.number();
     });
 
     it('creates a new admin', async () => {
@@ -89,9 +89,8 @@ describe('Deployment', () => {
         const res = await server.inject(options);
         const result = res.result;
         expect(res.statusCode).to.equal(200);
-        expect(result).to.be.an.object();
-        expect(result.role).to.equal('admin');
-        expect(result.email).to.equal('admin@test.com');
+        expect(result.id).to.be.a.number();
+
     });
 
     it('creates a new user with a dupe email', async () => {
@@ -109,8 +108,8 @@ describe('Deployment', () => {
         };
 
         const res = await server.inject(options);
-
-        expect(res.statusCode).to.equal(400);
+        //http conflict
+        expect(res.statusCode).to.equal(409);
     });
 
     it('creates a new user and generates a non-constraint db error', async () => {
@@ -129,7 +128,7 @@ describe('Deployment', () => {
 
         const res = await server.inject(options);
 
-        expect(res.statusCode).to.equal(500);
+        expect(res.statusCode).to.equal(400);
     });
 
     it('Logs a user in', async () => {
@@ -143,9 +142,25 @@ describe('Deployment', () => {
             }
         };
         const response = await server.inject(options);
-        jwt = response.result;
+        const { user, token } = response.result;
+        jwt = token;
         expect(response.statusCode).to.equal(200);
-        expect(jwt).to.be.a.string();
+        expect(token).to.be.a.string();
+        expect(user).to.be.an.object();
+    });
+
+    it('Fails Joi validation on login', async () => {
+
+        const options = {
+            method: 'POST',
+            url: '/login',
+            payload: {
+                email: 'test',
+                password: 'password'
+            }
+        };
+        const response = await server.inject(options);
+        expect(response.statusCode).to.equal(422);
     });
 
     it('Logs an admin in', async () => {
@@ -159,9 +174,12 @@ describe('Deployment', () => {
             }
         };
         const response = await server.inject(options);
-        jwtAdmin = response.result;
+        const { user, token } = response.result;
+
+        jwtAdmin = token;
         expect(response.statusCode).to.equal(200);
-        expect(jwtAdmin).to.be.a.string();
+        expect(token).to.be.a.string();
+        expect(user).to.be.an.object();
     });
 
     it('Logs a nonexistent user in', async () => {
@@ -283,7 +301,8 @@ describe('Deployment', () => {
             }
         };
         const loginResponse = await server.inject(loginOptions);
-        jwt2 = loginResponse.result;
+        const { token } = loginResponse.result;
+        jwt2 = token;
         expect(loginResponse.statusCode).to.equal(200);
         expect(jwt2).to.be.a.string();
     });
@@ -321,7 +340,7 @@ describe('Deployment', () => {
         };
 
         const changeResponse = await server.inject(changeOptions);
-        expect(changeResponse.statusCode).to.equal(400);
+        expect(changeResponse.statusCode).to.equal(401);
     });
 
     it('Requests password reset', async () => {
@@ -335,24 +354,8 @@ describe('Deployment', () => {
         };
 
         const requestResponse = await server.inject(requestOptions);
-        const { result } = requestResponse;
 
         expect(requestResponse.statusCode).to.equal(200);
-        expect(result).to.be.a.string();
-        //
-        // const resetOptions = {
-        //     method: 'POST',
-        //     url: '/users/reset-password',
-        //     payload: {
-        //         email: 'test@test.com',
-        //         resetToken,
-        //         newPassword: 'string'
-        //     }
-        // };
-        //
-        // const resetResponse = await server.inject(resetOptions);
-        // expect(resetResponse.statusCode).to.equal(200);
-
     });
 
     it('Resets Password', async () => {
@@ -361,7 +364,7 @@ describe('Deployment', () => {
             method: 'POST',
             url: '/users/reset-password',
             payload: {
-                email: 'a@b.c',
+                email: 'a@b.com',
                 resetToken: rawResetToken,
                 newPassword: 'string'
             }
@@ -418,11 +421,8 @@ describe('Deployment', () => {
         };
 
         const requestResponse = await server.inject(requestOptions);
-        const { result } = requestResponse;
 
         expect(requestResponse.statusCode).to.equal(200);
-        expect(result).to.be.a.string();
-        expect(result).to.equal('Check your email for a reset link');
 
         const resetOptions = {
             method: 'POST',
@@ -435,7 +435,7 @@ describe('Deployment', () => {
         };
 
         const resetResponse = await server.inject(resetOptions);
-        expect(resetResponse.statusCode).to.equal(401);
+        expect(resetResponse.statusCode).to.equal(400);
 
     });
 
@@ -451,7 +451,7 @@ describe('Deployment', () => {
 
         const requestResponse = await server.inject(requestOptions);
 
-        expect(requestResponse.statusCode).to.equal(401);
+        expect(requestResponse.statusCode).to.equal(400);
     });
 
     it('Attempts to delete a user as non admin', async () => {
