@@ -1,8 +1,8 @@
 'use strict';
 
-const Code = require('code');
+const Code = require('@hapi/code');
 const KnexMigrate = require('knex-migrate');
-const Lab = require('lab');
+const Lab = require('@hapi/lab');
 const SecurePassword = require('secure-password');
 const Server = require('../server');
 const Uuid = require('uuid');

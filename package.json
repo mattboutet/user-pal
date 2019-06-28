@@ -16,23 +16,24 @@
   "scripts": {
     "knex": "knex",
     "start": "node server",
-    "test": "NODE_ENV=test; lab -a code -L -t 100 -I 'core,__core-js_shared__,regeneratorRuntime' -L",
+    "test": "NODE_ENV=test; lab -a @hapi/code -L -t 100 -I 'core,__core-js_shared__,regeneratorRuntime,CSS' -L",
     "lint": "eslint ."
   },
   "dependencies": {
-    "boom": "7.x.x",
-    "code": "5.x.x",
+    "@hapi/boom": "7.x.x",
+    "@hapi/code": "5.x.x",
     "confidence": "4.x.x",
-    "db-errors": "^0.1.0",
+    "db-errors": "^0.2.0",
     "dotenv": "7.x.x",
-    "glue": "6.x.x",
-    "hapi": "18.x.x",
+    "@hapi/glue": "6.x.x",
+    "@hapi/hapi": "18.x.x",
     "hapi-auth-jwt2": "8.x.x",
     "haute-couture": "3.x.x",
-    "hoek": "6.x.x",
-    "joi": "14.x.x",
+    "@hapi/hoek": "6.x.x",
+    "@hapi/inert": "5.x.x",
+    "@hapi/joi": "^15.0.0",
     "jsonwebtoken": "8.x.x",
-    "knex-migrate": "^1.7.1",
+    "knex": "0.16.x",
     "objection": "1.x.x",
     "pg": "7.x.x",
     "schmervice": "1.x.x",
@@ -40,16 +41,15 @@
     "secure-password": "3.x.x",
     "sendemail": "^3.4.0",
     "tandy": "1.0.x",
-    "toys": "2.x.x"
+    "toys": "2.x.x",
+    "@hapi/vision": "5.x.x"
   },
   "devDependencies": {
     "eslint": "5.x.x",
-    "eslint-config-hapi": "12.x.x",
-    "eslint-plugin-hapi": "4.x.x",
-    "hapi-swagger": "^9.4.2",
-    "inert": "5.x.x",
-    "knex": "0.16.x",
-    "lab": "18.x.x",
-    "vision": "5.x.x"
+    "@hapi/eslint-config-hapi": "12.x.x",
+    "@hapi/eslint-plugin-hapi": "4.x.x",
+    "hapi-swagger": "^10.0.2",
+    "knex-migrate": "^1.7.1",
+    "@hapi/lab": "18.x.x"
   }
 }
