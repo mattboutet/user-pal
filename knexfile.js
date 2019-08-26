@@ -11,7 +11,8 @@ const PluginConfig = require('./lib/plugins/schwifty').plugins.options;
 module.exports = Hoek.applyToDefaults(
     {
         migrations: {
-            directory: Path.relative(process.cwd(), PluginConfig.migrationsDir)
+            directory: Path.relative(process.cwd(), PluginConfig.migrationsDir),
+            stub: 'lib/migrations/migration.stub'
         }
     },
     Manifest
