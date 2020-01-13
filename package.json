@@ -42,7 +42,7 @@
     "schwifty": "5.x.x",
     "secure-password": "3.x.x",
     "sendemail": "^3.4.0",
-    "tandy": "1.0.x",
+    "tandy": "2.x.x",
     "toys": "2.x.x"
   },
   "devDependencies": {
