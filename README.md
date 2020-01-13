@@ -3,7 +3,7 @@
 A batteries included version of [hapi pal](https://github.com/hapipal/boilerplate/)
 
 **Features**
- - Supports hapi v18+
+ - Supports hapi v19+
  - Provides conventions for building plugins by mapping the entire hapi plugin API onto files and folders, using [haute-couture](https://github.com/hapipal/haute-couture/).
  - Integrated with [Objection ORM](https://github.com/Vincit/objection.js/) via [Schwifty](https://github.com/hapipal/schwifty/)
  - Configured to use PostgreSQL (NODE_ENV=development) (though can work with any SQL dialect supported by [knex](http://knexjs.org/))
