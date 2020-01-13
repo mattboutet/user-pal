@@ -102,9 +102,9 @@ module.exports = new Confidence.Store({
                     }
                 }
             },
-            {// $lab:coverage:off$
+            { // $lab:coverage:off$
                 plugin: process.env.FRONT_END ? process.env.FRONT_END : Toys.noop
-            }// $lab:coverage:on$
+            } // $lab:coverage:on$
         ]
     }
 });
