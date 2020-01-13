@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@hapi/boom": "9.x.x",
-    "@hapi/glue": "6.x.x",
+    "@hapi/glue": "7.x.x",
     "@hapi/hapi": "19.x.x",
     "@hapi/hoek": "9.x.x",
     "@hapi/inert": "6.x.x",
@@ -32,7 +32,7 @@
     "db-errors": "^0.2.0",
     "dotenv": "8.x.x",
     "hapi-auth-jwt2": "8.x.x",
-    "hapi-swagger": "11.x.x",
+    "hapi-swagger": "12.x.x",
     "haute-couture": "3.x.x",
     "jsonwebtoken": "8.x.x",
     "knex": "0.20.x",
@@ -47,10 +47,10 @@
   },
   "devDependencies": {
     "@hapi/code": "8.x.x",
-    "eslint": "5.x.x",
-    "@hapi/eslint-config-hapi": "12.x.x",
+    "eslint": "6.x.x",
+    "@hapi/eslint-config-hapi": "13.x.x",
     "@hapi/eslint-plugin-hapi": "4.x.x",
     "knex-migrate": "^1.7.1",
-    "@hapi/lab": "20.2.x"
+    "@hapi/lab": "22.x.x"
   }
 }
