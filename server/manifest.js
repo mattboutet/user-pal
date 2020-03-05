@@ -6,7 +6,7 @@ const Toys = require('toys');
 
 // $lab:coverage:off$
 // Pull .env into process.env
-if (process.env.NODE_ENV === 'test'){
+if (process.env.NODE_ENV === 'test') {
     Dotenv.config({ path: `${__dirname}/.env-test` });
 }
 else {
@@ -102,9 +102,9 @@ module.exports = new Confidence.Store({
                     }
                 }
             },
-            {// $lab:coverage:off$
+            { // $lab:coverage:off$
                 plugin: process.env.FRONT_END ? process.env.FRONT_END : Toys.noop
-            }// $lab:coverage:on$
+            } // $lab:coverage:on$
         ]
     }
 });
